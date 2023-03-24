@@ -14,6 +14,7 @@ import analysis_engine.consts as ae_consts
 import analysis_engine.utils as ae_utils
 import analysis_engine.iex.consts as iex_consts
 import analysis_engine.td.consts as td_consts
+import analysis_engine.ap.consts as ap_consts
 import analysis_engine.options_dates as opt_dates
 
 
@@ -1067,6 +1068,84 @@ def build_td_fetch_puts_request(
     work = {
         'ft_type': td_consts.FETCH_TD_PUTS,
         'fd_type': td_consts.DATAFEED_TD_PUTS,
+        'ticker': ticker,
+        'exp_date': exp_date,
+        's3_bucket': s3_bucket_name,
+        's3_key': s3_key,
+        'redis_key': redis_key,
+        's3_enabled': s3_enabled,
+        'redis_enabled': redis_enabled
+    }
+
+    if label:
+        work['label'] = label
+
+    return work
+# end of build_td_fetch_puts_request
+
+
+def build_ap_fetch_calls_request(
+        label=None):
+    """build_td_fetch_calls_request
+
+    Fetch tradier calls
+
+    :param label: log label to use
+    """
+    ticker = ae_consts.TICKER
+    base_key = f'''{ticker}_apcalls_{datetime.datetime.utcnow().strftime(
+        '%Y_%m_%d_%H_%M_%S')}'''
+    s3_bucket_name = 'apcalls'
+    s3_key = base_key
+    redis_key = base_key
+    s3_enabled = True
+    redis_enabled = True
+
+    exp_date = opt_dates.option_expiration().strftime(
+        ae_consts.COMMON_DATE_FORMAT)
+
+    work = {
+        'ft_type': ap_consts.FETCH_AP_CALLS,
+        'fd_type': ap_consts.DATAFEED_AP_CALLS,
+        'ticker': ticker,
+        'exp_date': exp_date,
+        's3_bucket': s3_bucket_name,
+        's3_key': s3_key,
+        'redis_key': redis_key,
+        's3_enabled': s3_enabled,
+        'redis_enabled': redis_enabled
+    }
+
+    if label:
+        work['label'] = label
+
+    return work
+# end of build_ap_fetch_calls_request
+
+
+def build_ap_fetch_puts_request(
+        label=None):
+    """build_ap_fetch_puts_request
+
+    Fetch tradier puts
+
+    :param label: log label to use
+    """
+    ticker = ae_consts.TICKER
+    base_key = f'''{ticker}_apputs_{datetime.datetime.utcnow().strftime(
+        '%Y_%m_%d_%H_%M_%S')}'''
+    s3_bucket_name = 'apputs'
+    s3_key = base_key
+    redis_key = base_key
+    s3_enabled = True
+    redis_enabled = True
+
+    exp_date = opt_dates.option_expiration().strftime(
+        ae_consts.COMMON_DATE_FORMAT)
+
+    work = {
+        'ft_type': ap_consts.FETCH_AP_PUTS,
+        'fd_type': ap_consts.DATAFEED_AP_PUTS,
         'ticker': ticker,
         'exp_date': exp_date,
         's3_bucket': s3_bucket_name,

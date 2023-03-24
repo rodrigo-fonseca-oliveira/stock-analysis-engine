@@ -10,7 +10,7 @@ import analysis_engine.iex.consts as iex_consts
 import analysis_engine.work_tasks.get_new_pricing_data as price_utils
 import analysis_engine.iex.extract_df_from_redis as iex_extract_utils
 import analysis_engine.yahoo.extract_df_from_redis as yahoo_extract_utils
-import analysis_engine.td.extract_df_from_redis as td_extract_utils
+import analysis_engine.ap.extract_df_from_redis as td_extract_utils
 import analysis_engine.api_requests as api_requests
 import spylunking.log.setup_logging as log_utils
 
